@@ -8,6 +8,7 @@
 
 //------ Root Includes
 #include "TRandom3.h"
+#include "TRandomGen.h"
 
 //------ GSL includes
 #include <gsl/gsl_rng.h>
@@ -23,6 +24,8 @@ int run_pois(){
     std::poisson_distribution<> c_gen(pois_N);
 
     TRandom3 r_gen(0);
+    TRandomMT64 r_gen2(0);
+
 
     gsl_rng_env_setup();
     const gsl_rng_type * g_T=gsl_rng_default;
@@ -40,6 +43,16 @@ int run_pois(){
     }
     watch.Stop();
     std::cout << "Root\t|| done CpuTime=" << watch.CpuTime() << " RealTime=" << watch.RealTime() << std::endl;
+
+    // ----------- ROOT TRandomMerse
+    watch.Reset();
+    watch.Start();
+    for(int i=0;i< N; i++){
+        r_gen.Poisson(pois_N);
+    }
+    watch.Stop();
+    std::cout << "Root Mer\t|| done CpuTime=" << watch.CpuTime() << " RealTime=" << watch.RealTime() << std::endl;
+
 
  // ----------- C++ random Mersenne Twister
     watch.Reset();
