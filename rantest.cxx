@@ -23,6 +23,7 @@ int main(){
 
     std::random_device c_rd;
     std::mt19937 c_gen_engine(c_rd());
+    std::default_random_engine c_gen_engine_default(c_rd());
     std::poisson_distribution<unsigned> c_gen(pois_N);
 
     TRandom3 r_gen(0);
@@ -63,7 +64,19 @@ int main(){
         c_gen(c_gen_engine);
     }
     watch.Stop();
-    std::cout << "C++11\t|| done CpuTime=" << watch.CpuTime() << " RealTime=" << watch.RealTime() << std::endl;
+    std::cout << "C++11 mt19937\t|| done CpuTime=" << watch.CpuTime() << " RealTime=" << watch.RealTime() << std::endl;
+
+
+ // ----------- C++ "default"
+    watch.Reset();
+    watch.Start();
+    for(int i=0;i< N; i++){
+        c_gen(c_gen_engine_default);
+    }
+    watch.Stop();
+    std::cout << "C++11 default\t|| done CpuTime=" << watch.CpuTime() << " RealTime=" << watch.RealTime() << std::endl;
+
+
 
 
  // ----------- GSL  TRandom
